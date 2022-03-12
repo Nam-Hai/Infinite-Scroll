@@ -164,7 +164,8 @@ const imgUrl = [
         }
 
         deltaY = N.Lerp(deltaY, Y - curY, 0.1);
-        let a = N.map(deltaY, -400, 400, 0.6, 1.4);
+        let a = N.map(deltaY, -400, 400, 0.7, 1.3);
+        a = N.Clamp(a, 0.6, 1.4)
         let b = (a - 1) - 1
 
         wrap.style.transform = 'scale(' + a + ')';
