@@ -5,6 +5,28 @@ N.Lerp = function (xi, xf, t) {
     return (1 - t) * xi + t * xf
 };
 
+N.Ease = {
+    linear: t => t,
+    i1: t => 1 - Math.cos(t * (.5 * Math.PI)),
+    o1: t => Math.sin(t * (.5 * Math.PI)),
+    io1: t => -.5 * (Math.cos(Math.PI * t) - 1),
+    i2: t => t * t,
+    o2: t => t * (2 - t),
+    io2: t => t < .5 ? 2 * t * t : (4 - 2 * t) * t - 1,
+    i3: t => t * t * t,
+    o3: t => --t * t * t + 1,
+    io3: t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+    i4: t => t * t * t * t,
+    o4: t => 1 - --t * t * t * t,
+    io4: t => t < .5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
+    i5: t => t * t * t * t * t,
+    o5: t => 1 + --t * t * t * t * t,
+    io5: t => t < .5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
+    i6: t => 0 === t ? 0 : 2 ** (10 * (t - 1)),
+    o6: t => 1 === t ? 1 : 1 - 2 ** (-10 * t),
+    io6: t => 0 === t ? 0 : 1 === t ? 1 : (t /= .5) < 1 ? .5 * 2 ** (10 * (t - 1)) : .5 * (2 - 2 ** (-10 * --t))
+}
+
 /** Fonction inverse de Lerp */
 N.iLerp = function (x, xi, xf) {
     return (x - xi) / (xf - xi)
@@ -57,7 +79,7 @@ N.Index = {
     list: (el) => N.index(el, el.parentNode.childer),
 
     /** L'indice de l'element par rapport au element de la meme classe, relatif au contexte */
-    // class: (el, nameClass, context)
+    class: (el, tag, context) => N.index(el, N.Get.class(tag, context))
 }
 
 /** Arrondie à la decimal pres, au centieme de base */
