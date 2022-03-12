@@ -7,9 +7,6 @@
 body {
     
     height: 150rem;
-
-    display: flex;
-    justify-content: center;
 }
 
 main {
