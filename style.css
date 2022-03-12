@@ -7,19 +7,22 @@
 body {
     
     height: 150rem;
-    background-image: url("assets/background_pattern.jpg");
+
+    display: flex;
+    justify-content: center;
 }
 
 main {
     display: flex;
-    column-gap: 20rem;
+    column-gap: 10rem;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     position: fixed;
     top: 0;
     bottom: 0;
-    background: black;
-    
+    right: 0;
+    left: 0;
+    background-image: url("assets/background_pattern.jpg"); 
 }
 
 .container {

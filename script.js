@@ -170,7 +170,7 @@ const imgUrl = [
         wrap.style.transform = 'scale(' + a + ')';
         for (const w of wrapInv) {
             w.style.transform = 'scale(' + b + ')';
-            N.O(w, N.iLerp(Math.abs(deltaY), -100, 400))
+            N.O(w, N.iLerp(Math.abs(deltaY), -10, 400))
         }
 
 
