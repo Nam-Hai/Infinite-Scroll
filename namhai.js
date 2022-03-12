@@ -89,8 +89,8 @@ N.Is = {
 }
 
 
-N.O = (t, r) => {
-    t.style.opacity = r
+N.O = (el, valeur) => {
+    el.style.opacity = valeur
 }
 N.pe = (t, r) => {
     t.style.pointerEvents = r

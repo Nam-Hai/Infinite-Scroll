@@ -60,7 +60,12 @@ const imgUrl = [
 ! function () {
     const main = N.Get.tag('main', document);
     const body = document.body;
-    const cont = N.Get.class('container', main[0])[0];
+    const cont = N.Get.class('container-center', main[0])[0];
+    const wrap = N.Get.class('wrapper-normal', main[0])[0];
+    const wrapInv = N.Get.class('wrapper-inv', main[0]);
+
+    const invCont = N.Get.class('container-inv');
+
     const imgH = 450;
     const gap = 30;
     const imgOffset = imgH + gap;
@@ -109,7 +114,7 @@ const imgUrl = [
         newImg.src = imgUrl[n].url;
         newImg.alt = imgUrl[n].alt;
         return newImg;
-    }
+    };
 
     setInterval(() => {
         oldY = Y;
@@ -122,8 +127,12 @@ const imgUrl = [
             imgCount++;
             body.style.height = bodyHeight + imgOffset + 'px';
 
+            let newImg = GetImgBot()
+            cont.appendChild(newImg);
 
-            cont.appendChild(GetImgBot());
+            for (let c of invCont) {
+                c.appendChild(newImg.cloneNode(true));
+            }
         }
 
         // scroll vers le haut
@@ -131,9 +140,14 @@ const imgUrl = [
             body.style.height = bodyHeight + imgOffset + 'px';
             imgCount++;
 
-            let firstImg = N.Get.tag('img')[0];
+            let newImg = GetImgTop()
+            let firstImg = N.Get.tag('img', cont)[0];
+            cont.insertBefore(newImg, firstImg);
 
-            cont.insertBefore(GetImgTop(), firstImg);
+            for (let c of invCont) {
+                firstImg = N.Get.tag('img', c)[0]
+                c.insertBefore(newImg.cloneNode(true), firstImg);
+            }
 
             curY += imgOffset;
             Y += 450;
@@ -144,10 +158,21 @@ const imgUrl = [
             curY = Y;
         } else curY = N.Lerp(curY, Y, 0.1);
 
-        deltaY = N.Lerp(deltaY, Y - curY, 0.1);
+        N.T(cont, 0, -curY, 'px')
+        for (let c of invCont) {
+            N.T(c, 0, -curY, 'px')
+        }
 
-        a = N.map(deltaY, -400, 400, 0.7, 1.3);
-        cont.style.transform = 'perspective(500px) translate3d(0,' + -curY + 'px, 0) scale(' + a + ')';
-        cont.style.transformOrigin = "50% " + Y + 'px'
+        deltaY = N.Lerp(deltaY, Y - curY, 0.1);
+        let a = N.map(deltaY, -400, 400, 0.6, 1.4);
+        let b = (a - 1) - 1
+
+        wrap.style.transform = 'scale(' + a + ')';
+        for (const w of wrapInv) {
+            w.style.transform = 'scale(' + b + ')';
+            N.O(w, N.iLerp(Math.abs(deltaY), -100, 400))
+        }
+
+
     }, 1000 / 60);
 }()
