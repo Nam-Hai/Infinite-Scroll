@@ -66,19 +66,19 @@ const imgUrl = [
     const imgOffset = imgH + gap;
     let imgCount = 0;
 
-    // N.TopReload(), but offseted by imgH;
-    window.scroll(0, imgOffset);
+    window.scroll(0, imgOffset * 2);
     N.T(cont, 0, -imgOffset, 'px')
 
+    let Y = imgOffset * 2;
+    let curY = imgOffset * 2;
+    let oldY = Y;
+    let deltaY = 0;
 
-    console.log(window.scrollY);
-    let Y = imgOffset;
-    let curY = imgOffset;
     let bodyHeight = 0;
     const screenH = body.clientHeight;
     imgCount = screenH / imgH + 1; // there is a '-1' img on top
 
-    let imgPileTop = [1, 2];
+    let imgPileTop = [8, 5];
     let imgPileBot = [2, 3];
     function updatePile(pile, el) {
         pile[1] = pile[0];
@@ -111,8 +111,8 @@ const imgUrl = [
         return newImg;
     }
 
-
     setInterval(() => {
+        oldY = Y;
         Y = window.scrollY;
 
         bodyHeight = body.offsetHeight;
@@ -126,8 +126,8 @@ const imgUrl = [
             cont.appendChild(GetImgBot());
         }
 
-
-        if (curY <= 440) {
+        // scroll vers le haut
+        if (curY <= imgOffset * 2 - 60) {
             body.style.height = bodyHeight + imgOffset + 'px';
             imgCount++;
 
@@ -142,8 +142,12 @@ const imgUrl = [
 
         if (Math.abs(curY - Y) < 0.01) {
             curY = Y;
-        } else curY = N.Lerp(curY, Y, 0.08);
+        } else curY = N.Lerp(curY, Y, 0.1);
 
-        N.T(cont, 0, -curY, 'px')
+        deltaY = N.Lerp(deltaY, Y - curY, 0.1);
+
+        a = N.map(deltaY, -400, 400, 0.7, 1.3);
+        cont.style.transform = 'perspective(500px) translate3d(0,' + -curY + 'px, 0) scale(' + a + ')';
+        cont.style.transformOrigin = "50% " + Y + 'px'
     }, 1000 / 60);
 }()

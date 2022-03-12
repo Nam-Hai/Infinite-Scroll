@@ -14,7 +14,7 @@ N.Clamp = function (x, min, max) {
     return Math.max(Math.min(x, max), min)
 }
 
-/** R-maps a number from one range to another */
+/** Remaps a number from one range to another */
 N.map = function (x, start1, end1, start2, end2) {
     return N.Lerp(start2, end2, N.iLerp(x, start1, end1))
 }
