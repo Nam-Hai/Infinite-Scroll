@@ -62,16 +62,18 @@ const imgUrl = [
     const body = document.body;
     const cont = N.Get.class('container', main[0])[0];
     const imgH = 450;
+    const gap = 30;
+    const imgOffset = imgH + gap;
     let imgCount = 0;
 
     // N.TopReload(), but offseted by imgH;
-    window.scroll(0, imgH);
-    N.T(cont, 0, -imgH, 'px')
+    window.scroll(0, imgOffset);
+    N.T(cont, 0, -imgOffset, 'px')
 
 
     console.log(window.scrollY);
-    let Y = imgH;
-    let curY = imgH;
+    let Y = imgOffset;
+    let curY = imgOffset;
     let bodyHeight = 0;
     const screenH = body.clientHeight;
     imgCount = screenH / imgH + 1; // there is a '-1' img on top
@@ -116,9 +118,9 @@ const imgUrl = [
         bodyHeight = body.offsetHeight;
 
         //scroll vers le bas
-        if (curY + screenH >= imgCount * imgH) {
+        if (curY + screenH >= imgCount * imgOffset) {
             imgCount++;
-            body.style.height = bodyHeight + 450 + 'px';
+            body.style.height = bodyHeight + imgOffset + 'px';
 
 
             cont.appendChild(GetImgBot());
@@ -126,14 +128,14 @@ const imgUrl = [
 
 
         if (curY <= 440) {
-            body.style.height = bodyHeight + 450 + 'px';
+            body.style.height = bodyHeight + imgOffset + 'px';
             imgCount++;
 
             let firstImg = N.Get.tag('img')[0];
 
             cont.insertBefore(GetImgTop(), firstImg);
 
-            curY += 450;
+            curY += imgOffset;
             Y += 450;
             window.scroll(0, Y);
         }

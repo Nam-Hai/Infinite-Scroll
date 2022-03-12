@@ -22,6 +22,9 @@ main {
 .container {
     width: 30rem;
     margin: 0 auto;
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .container img {
